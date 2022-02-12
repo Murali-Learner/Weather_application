@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weather/services/providerService.dart';
 
 class InputField extends StatelessWidget {
-  const InputField({
-    Key? key,
-    required TextEditingController emailController,
-  })  : _emailController = emailController,
-        super(key: key);
-
-  final TextEditingController _emailController;
+  String controller;
+  String hint;
+  TextInputType type;
+  InputField({this.controller, this.hint, this.type});
 
   @override
   Widget build(BuildContext context) {
+    var caller = Provider.of<ProviderService>(context, listen: false);
     return TextFormField(
-      controller: _emailController,
+      enableSuggestions: true,
+      keyboardType: type,
+      onChanged: (value) {
+        if (hint == "email") {
+          caller.setEmail(value);
+        } else if (hint == "Name") {
+          caller.setName(value);
+        } else if (hint == "password") {
+          caller.setPassword(value);
+        } else if (hint == "Phone Number") {
+          caller.setPhone(value);
+        }
+
+        // print("${caller.newPassword}  ${caller.newEmail}");
+      },
       decoration: InputDecoration(
+        hintText: hint,
+        hintStyle: TextStyle(color: Colors.green),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),
           borderSide: const BorderSide(

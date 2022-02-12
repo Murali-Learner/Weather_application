@@ -1,22 +1,25 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:weather/pages/home.dart';
 import 'package:weather/pages/signupPage.dart';
 import 'package:weather/services/api.dart';
 import 'package:weather/services/firebaseServices.dart';
+import 'package:weather/services/providerService.dart';
 import 'package:weather/widgets/inputField.dart';
 import 'package:weather/widgets/toast.dart';
 
 class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
+    String _emailController;
+    String _passwordController;
 
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
@@ -46,50 +49,70 @@ class Login extends StatelessWidget {
                       const Text(
                         "Weather Forecast",
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 40,
                             fontWeight: FontWeight.w600,
-                            color: Colors.green),
+                            color: Colors.white),
                       ),
                       SizedBox(
                         height: _height * 0.04,
                       ),
-                      InputField(emailController: _emailController),
+                      InputField(
+                        controller: _emailController,
+                        hint: "email",
+                        type: TextInputType.emailAddress,
+                      ),
                       SizedBox(
                         height: _height * 0.04,
                       ),
-                      InputField(emailController: _passwordController),
+                      InputField(
+                        controller: _passwordController,
+                        hint: "password",
+                        type: TextInputType.visiblePassword,
+                      ),
                       SizedBox(
                         height: _height * 0.02,
                       ),
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                          ),
-                          onPressed: () {
-                            AuthenticationHelper()
-                                .signIn(
-                                    email: _emailController.text.trim(),
-                                    password: _passwordController.text.trim())
-                                .then(
-                              (result) {
-                                if (result == null) {
-                                  print(result);
+                      Consumer<ProviderService>(
+                        builder: (context, value, child) {
+                          return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                              ),
+                              onPressed: () async {
+                                FirebaseAuth auth = FirebaseAuth.instance;
 
-                                  showToast("  Successfully Login  ");
-                                } else {
-                                  showToast(result);
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Home()));
-                                }
+                                AuthenticationHelper()
+                                    .signIn(
+                                  email: value.newEmail,
+                                  password: value.newPassword,
+                                )
+                                    .then(
+                                  (result) {
+                                    print(result.currentUser);
+                                    if (result.currentUser != null) {
+                                      showToast("Login Complted");
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return Home();
+                                        },
+                                      ));
+                                    } else {
+                                      showToast("Login Failed");
+                                    }
+                                  },
+                                ).onError((
+                                  FirebaseAuthException error,
+                                  stackTrace,
+                                ) {
+                                  showToast(error.code);
+                                });
                               },
-                            );
-                          },
-                          child: const Text("Signin")),
+                              child: const Text("Signin"));
+                        },
+                      ),
                       SizedBox(
                         height: _height * 0.02,
                         width: _width * 0.03,
@@ -99,11 +122,12 @@ class Login extends StatelessWidget {
                           text: 'Already have an account',
                           children: <TextSpan>[
                             TextSpan(
-                                text: '  Signup',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1,
-                                ),
+                                text: ' Signup',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1,
+                                    color: Colors.green.shade300,
+                                    fontSize: 20),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.push(context, MaterialPageRoute(

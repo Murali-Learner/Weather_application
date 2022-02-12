@@ -21,7 +21,7 @@ class Getlocation extends ChangeNotifier {
       var addresses =
           await Geocoder.local.findAddressesFromCoordinates(coordinates);
       var address = addresses.first;
-      print("sgdh ${addresses.first.countryName}");
+      // print("sgdh ${addresses.first.countryName}");
       return address;
     }
   }

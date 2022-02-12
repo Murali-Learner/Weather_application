@@ -5,28 +5,19 @@ class AuthenticationHelper {
   get user => _auth.currentUser;
 
   //SIGN UP METHOD
-  Future signUp({String? email, String? password}) async {
-    try {
-      await _auth.createUserWithEmailAndPassword(
-        email: email!,
-        password: password!,
-      );
-      print(_auth.currentUser!.uid.toString());
-      return _auth;
-    } on FirebaseAuthException catch (e) {
-      return e.message;
-    }
+  Future<FirebaseAuth> signUp({String email, String password}) async {
+    await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    print(_auth.currentUser.uid.toString());
+    return _auth;
   }
 
   //SIGN IN METHOD
-  Future signIn({String? email, String? password}) async {
-    try {
-      await _auth.signInWithEmailAndPassword(
-          email: email!, password: password!);
-      return _auth.currentUser!.displayName;
-    } on FirebaseAuthException catch (e) {
-      return e.message;
-    }
+  Future<FirebaseAuth> signIn({String email, String password}) async {
+    await _auth.signInWithEmailAndPassword(email: email, password: password);
+    return _auth;
   }
 
   //SIGN OUT METHOD
