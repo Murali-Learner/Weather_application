@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_sliding_up_panel/sliding_up_panel_widget.dart';
+
 import 'package:geocoder/geocoder.dart';
 import 'package:weather/models/currentDataModel.dart';
 import 'package:weather/pages/contactPage.dart';
@@ -13,6 +12,8 @@ import 'package:weather/services/api.dart';
 import 'package:weather/widgets/detailWeather.dart';
 
 class Home extends StatefulWidget {
+  const Home({Key key}) : super(key: key);
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -36,14 +37,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
-    List<Widget> _widgetOptions = <Widget>[Home(), ContactPage()];
-    int _selectedIndex = 0;
-    void _onItemTapped(int index) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      print(_selectedIndex);
-    }
 
     return Scaffold(
       body: SafeArea(
@@ -63,7 +56,6 @@ class _HomeState extends State<Home> {
               Container(
                 height: _height * 0.7,
                 width: _width,
-                // color: Colors.amber.shade400,
                 child: FutureBuilder<WeatherModel>(
                   future: getCurrentWeatherDetails(),
                   // initialData: InitialData,

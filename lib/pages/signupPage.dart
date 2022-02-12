@@ -24,7 +24,6 @@ class _SignupState extends State<Signup> {
     String _passwordController;
     // TextEditingController _phoneController = TextEditingController();
     // TextEditingController _nameController = TextEditingController();
-    String _confirmPasswordController;
 
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
@@ -98,8 +97,6 @@ class _SignupState extends State<Signup> {
                                 ),
                               ),
                               onPressed: () async {
-                                print(value.newEmail);
-                                print(value.newPassword);
                                 FirebaseAuth auth = FirebaseAuth.instance;
                                 await auth.signOut();
                                 AuthenticationHelper()
@@ -125,7 +122,7 @@ class _SignupState extends State<Signup> {
                                   FirebaseAuthException error,
                                   stackTrace,
                                 ) {
-                                  showToast(error.code);
+                                  showToast("Enter Correct Details");
                                 });
                               },
                               child: const Text("Signup"));
@@ -136,9 +133,11 @@ class _SignupState extends State<Signup> {
                             children: <TextSpan>[
                               TextSpan(
                                   text: '  Login',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     letterSpacing: 1,
+                                    color: Colors.green.shade500,
+                                    fontSize: 20,
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {

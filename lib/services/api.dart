@@ -7,7 +7,7 @@ class WeatherApi {
     var client = http.Client();
     String uri =
         "http://api.weatherstack.com/current?access_key=e4cbde68c2ff6a10b0ec2367b5cc6e3c&query=$cityName";
-
+    print(uri);
     try {
       final channaelResponse = await client.get(Uri.parse(uri));
 

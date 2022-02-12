@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/services/providerService.dart';
 
+// ignore: must_be_immutable
 class InputField extends StatelessWidget {
   String controller;
   String hint;
   TextInputType type;
-  InputField({this.controller, this.hint, this.type});
+  InputField({Key key, this.controller, this.hint, this.type})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class InputField extends StatelessWidget {
       },
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(color: Colors.green),
+        hintStyle: const TextStyle(color: Colors.green),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),
           borderSide: const BorderSide(

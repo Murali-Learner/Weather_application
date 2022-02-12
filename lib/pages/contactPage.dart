@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/pages/contactList.dart';
@@ -25,7 +23,7 @@ class _ContactPageState extends State<ContactPage> {
     var items = ["Male", "Female"];
     String gender = items.first;
 
-    var id = new DateTime.now().microsecondsSinceEpoch;
+    var id = DateTime.now().microsecondsSinceEpoch;
 
     return Scaffold(
       backgroundColor: Colors.grey.shade400,
@@ -92,7 +90,6 @@ class _ContactPageState extends State<ContactPage> {
                         setState(() {
                           gender = newValue;
                         });
-                        print(gender);
                       },
                     ),
                     SizedBox(
@@ -131,7 +128,7 @@ class _ContactPageState extends State<ContactPage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return ContactList();
+                                return const ContactList();
                               },
                             ),
                           );

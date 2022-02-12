@@ -41,8 +41,6 @@ dependencies:
   fluttertoast: ^8.0.8
   geolocator: ^8.1.1
   geocoder: ^0.2.1
-  flutter_sliding_up_panel: ^2.0.1
-  uuid: ^3.0.5
 
 dev_dependencies:
   flutter_test:

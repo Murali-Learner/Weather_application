@@ -10,7 +10,7 @@ class Getlocation extends ChangeNotifier {
     print(permission);
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever) {
-      LocationPermission askPermission = await Geolocator.requestPermission();
+      await Geolocator.requestPermission();
       return Address();
     } else {
       Position currentPosition = await Geolocator.getCurrentPosition(

@@ -4,7 +4,7 @@ import 'package:weather/services/firestoreServices.dart';
 
 // ignore: must_be_immutable
 class ContactList extends StatelessWidget {
-  ContactList({
+  const ContactList({
     Key key,
   }) : super(key: key);
 

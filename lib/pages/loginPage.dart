@@ -3,11 +3,10 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/pages/home.dart';
 import 'package:weather/pages/signupPage.dart';
-import 'package:weather/services/api.dart';
+
 import 'package:weather/services/firebaseServices.dart';
 import 'package:weather/services/providerService.dart';
 import 'package:weather/widgets/inputField.dart';
@@ -82,8 +81,6 @@ class Login extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () async {
-                                FirebaseAuth auth = FirebaseAuth.instance;
-
                                 AuthenticationHelper()
                                     .signIn(
                                   email: value.newEmail,
@@ -91,7 +88,6 @@ class Login extends StatelessWidget {
                                 )
                                     .then(
                                   (result) {
-                                    print(result.currentUser);
                                     if (result.currentUser != null) {
                                       showToast("Login Complted");
                                       Navigator.push(context, MaterialPageRoute(
@@ -107,7 +103,7 @@ class Login extends StatelessWidget {
                                   FirebaseAuthException error,
                                   stackTrace,
                                 ) {
-                                  showToast(error.code);
+                                  showToast("Check The Details");
                                 });
                               },
                               child: const Text("Signin"));
@@ -124,10 +120,11 @@ class Login extends StatelessWidget {
                             TextSpan(
                                 text: ' Signup',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 1,
-                                    color: Colors.green.shade300,
-                                    fontSize: 20),
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1,
+                                  color: Colors.green.shade300,
+                                  fontSize: 20,
+                                ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.push(context, MaterialPageRoute(
